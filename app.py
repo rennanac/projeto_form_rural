@@ -28,8 +28,8 @@ if __name__ == "__main__":
             st.subheader("Dados beneficiário(a):")
             nome_beneficiario = st.text_input("Beneficiário(a)")
             cpf_cnpj_beneficiario = st.text_input("CPF/CNPJ")
-            idade_beneficiario = st.text_input(
-                "Idade do/a responsavel e/ou proprietário/a (anos)")
+            data_nascimento_beneficiario = st.text_input(
+                "Data de nascimento:")
 
             st.subheader("Local e identificação do imóvel rural:")
             geolocalizacao = st.text_input(
@@ -104,7 +104,8 @@ if __name__ == "__main__":
             st.subheader("Área de reserva legal (RL):")
             opcao_reserva_legal = st.selectbox(
                 '% RL',
-                ('20% do imóvel rural', '35% do imóvel rural', '80% do imóvel rural')
+                ('Não possuí reserva legal', '20% do imóvel rural',
+                 '35% do imóvel rural', '80% do imóvel rural')
             )
 
             st.subheader("Recurso hídrico no imóvel rural:")
@@ -134,12 +135,7 @@ if __name__ == "__main__":
                 options=["Sim",
                          "Não"]
             )
-            opcao_licencimento_ambiental = st.radio(
-                'Possui licenciamento ambiental ou certidão de não passível ou AAF',
-                help='Certidão de não passível (dispensa de licenciamento), Autorização Ambiental de Funcionamento (AAF), Licenciamento Ambiental.',
-                options=["Sim",
-                         "Não"]
-            )
+
             opcao_reserva_legal_regular = st.radio(
                 'Possui regularização da Reserva Legal e das Áreas de Preservação Permanente',
                 help='Cadastro Ambiental Rural - CAR.',
@@ -164,20 +160,14 @@ if __name__ == "__main__":
             })
             st.write(
                 "Principais atividades executadas no imóvel rural")
-            descricao_atividade_rural = st.text_input(
-                "Descrição das atividades")
-            produtividade_rural_anual = st.text_input(
-                "Produtividade média atual")
-            preco_anual_venda_rural = st.text_input(
-                "Preço médio de venda  (R$/unidade de venda)")
 
             st.subheader(
                 "Diversidade de renda")
             st.write(
                 "Renda bruta anual estimada de outras atividades gerada dentro do imóvel rural. Exemplo de outras atividades: Turismo, artesanato, agroindústria, produção de cachaça, alimentos processados, etc.")
             df_renda_bruta_outras_atividades = st.data_editor({
-                "Descrição das atividades": ["", "", ""],
-                "Valor estimado no ano (R$)": ["", "", ""],
+                "Descrição das atividades": ["", "", "", "", ""],
+                "Valor estimado no ano (R$)": ["", "", "", "", ""],
             })
             st.write(
                 "Renda bruta anual estimada fora imóvel rural. De todas as rendas das pessoas com vínculo direto com o estabelecimento (locação de máquinas, emprego fora do estabelecimento, prestação de serviços, etc.)")
@@ -192,60 +182,76 @@ if __name__ == "__main__":
                 "Total de residências no imóvel rural")
             st.write(
                 "Serviços básicos disponíveis OBS: Escolha uma opção: 1 (atende satisfatoriamente); 0,5 (parcialmente); 0 (inexistente)")
-            df_servico_basico = st.data_editor({
-                "Serviços disponíveis": ["Disponibilidade de água (quantidade e qualidade)",
-                                         "Acesso a energia elétrica",
-                                         "Acesso regular para escoamento da produção",
-                                         "Acesso ao serviço de saúde (PSF)",
-                                         "Acesso regular ao transporte escolar",
-                                         "Segurança no campo",
-                                         "Internet",
-                                         "Coleta pública de lixo"],
-                "Residência rural": ["", "", "", "", "", "", "", ""],
-                "Outras residência": ["", "", "", "", "", "", "", ""],
-            })
-            st.write(
-                "Produção própria de alimentos (para imóveis rurais menores que 4 MF). Escolha uma opção: 1 (atende satisfatoriamente); 0,5 (parcialmente); 0 (inexistente) ")
-            df_procucao_alimento = st.data_editor({
-                "Tipo alimentos": ["Hortaliças, grãos e tubérculos",
-                                   "Pomar",
-                                   "Criação de animais (carne, leite, ovos)"],
-                "Residência rural": ["", "", ""],
-                "Outras residência": ["", "", ""],
-            })
+
+            servico_basico_agua = st.radio(
+                "Disponibilidade de água (quantidade e qualidade)",
+                options=["Sim",
+                         "Não"])
+            servico_basico_energia_eletrica = st.radio(
+                "Acesso a energia elétrica",
+                options=["Sim",
+                         "Não"])
+            servico_basico_escoamento_producao = st.radio(
+                "Acesso regular para escoamento da produção",
+                options=["Sim",
+                         "Não"])
+            servico_basico_saude = st.radio(
+                "Acesso ao serviço de saúde (PSF)",
+                options=["Sim",
+                         "Não"])
+            servico_basico_transporte_escolar = st.radio(
+                "Acesso regular ao transporte escolar",
+                options=["Sim",
+                         "Não"])
+            servico_basico_transporte_seguranca = st.radio(
+                "Segurança no campo",
+                options=["Sim",
+                         "Não"])
+            servico_basico_internet = st.radio(
+                "Internet",
+                options=["Sim",
+                         "Não"])
+            servico_basico_coleta_lixo = st.radio(
+                "Coleta pública de lixo",
+                options=["Sim",
+                         "Não"])
+            servico_basico_tratamento_esgoto = st.radio(
+                "Tratamento de esgoto",
+                options=["Sim",
+                         "Não"])
+            servico_basico_residencia_rural = st.radio(
+                "Residência rural",
+                options=["Sim",
+                         "Não"])
+            servico_basico_outras_residencias = st.radio(
+                "Outras residência",
+                options=["Sim",
+                         "Não"])
 
             st.subheader(
                 "Escolaridade & cursos direcionados às principais atividades")
             st.write(
                 "Grau de escolaridade. Marque o nº de pessoas em cada campo")
             df_escolaridade = st.data_editor({
-                "Grau de escolaridade": ["Número de adultos no imóvel rural",
-                                         "Menos de 9 anos de estudo",
-                                         "Ensino Fundamental completo",
+                "Grau de escolaridade": ["Ensino Fundamental completo",
+                                         "Ensino Fundamental incompleto",
                                          "Ensino Médio completo",
-                                         "Curso superior"],
-                "Integrantes da família com vínculo direto": [0, 0, 0, 0, 0],
-                "Trabalhadores permanentes": [0, 0, 0, 0, 0],
+                                         "Ensino Médio incompleto",
+                                         "Curso superior",
+                                         "Alfabetizado",
+                                         "Analfabeto"],
+                "Integrantes da família com vínculo direto": [0, 0, 0, 0, 0, 0, 0],
+                "Trabalhadores permanentes": [0, 0, 0, 0, 0, 0, 0],
             })
 
             st.write(
                 "Cursos direcionados às principais atividades geradas no imóvel rural. Marque o nº de pessoas em cada campo")
             df_cursos_rurais = st.data_editor({
                 "Cursos direcionados às principais atividades geradas no imóvel rural": [
-                    "Capacitação curta temporada. Nº de pessoas que fizeram cursos de especialização direcionados às atividades.",
-                    "Capacitação longa temporada. Nº de pessoas que fizeram cursos técnicos em agropecuária ou afins."],
+                    "Capacitação curta temporada. Nº de pessoas capacitadas em curta temporada.",
+                    "Capacitação longa temporada. Nº de pessoas capacitadas em longa temporada."],
                 "Integrantes da família com vínculo direto": [0, 0],
                 "Trabalhadores permanentes": [0, 0],
-            })
-
-            st.write(
-                "Frequência da rede de ensino dos dependentes. Marque o nº de pessoas em cada campo. OBS: *** Dependentes que residem no estabelecimento (até o 2º grau).")
-            df_frequencia_rede_ensino = st.data_editor({
-                "Frequência da rede de ensino dos dependentes": [
-                    "Número de dependentes no imóvel rural***",
-                    "Frequenta rede de ensino."],
-                "Dependentes (6 a 18 anos) dos integrantes***": [0, 0],
-                "Dependentes (6 a 18 anos) de trabalhadores residentes***": [0, 0],
             })
 
             st.subheader(
@@ -255,26 +261,9 @@ if __name__ == "__main__":
             df_cumprimento_legistacao_trabalhista = st.data_editor({
                 "Cumprimento da Legislação Trabalhista": [
                     "Número de funcionários no imóvel rural",
-                    "Registro de funcionários (carteira de trabalho)",
-                    "Pagamento de hora extra / banco de horas* / ausência de hora extra"],
-                "Contratação efetiva ": [0, 0, 0],
-                "Contratação temporária ": [0, 0, 0],
-            })
-
-            st.write(
-                "Adoção de benefícios / observância das recomendações/determinações do Ministério do Trabalho. Marque o nº de pessoas em cada campo")
-            df_beneficios_ministerio_trabalho = st.data_editor({
-                "Adoção de benefícios / observância das recomendações/determinações do Ministério do Trabalho": [
-                    "Acima de 1 salário mínimo",
-                    "Auxílio alimentação",
-                    "Auxílio moradia",
-                    "Auxílio educação e transporte",
-                    "Participação nos lucros",
-                    "Seguro contra acidentes",
-                    "Acesso a lazer",
-                    "Espaço para cultivo de alimentos "],
-                "Contratação efetiva ": [0, 0, 0, 0, 0, 0, 0, 0],
-                "Contratação temporária ": [0, 0, 0, 0, 0, 0, 0, 0],
+                    "Registro de funcionários (carteira de trabalho)"],
+                "Contratação efetiva ": [0, 0],
+                "Contratação temporária ": [0, 0],
             })
 
             st.subheader(
@@ -292,34 +281,6 @@ if __name__ == "__main__":
                 'Participação - formas associativas',
                 ("ativa",
                  "passiva")
-            )
-            regularizacao_ambiental = st.selectbox(
-                'Regularização ambiental (Uso da água, CAR e Licenciamento)',
-                ("atende satisfatoriamente",
-                 "parcialmente",
-                 "inexistente")
-            )
-            st.write(
-                "Regularização ambiental (Uso da água, CAR e Licenciamento).")
-            usa_credito_regularizacao_ambiental = st.selectbox(
-                'Utiliza crédito para investimento',
-                ("atende satisfatoriamente",
-                 "parcialmente",
-                 "inexistente")
-            )
-
-            usa_custeio_regularizacao_ambiental = st.selectbox(
-                'Utiliza crédito para custeio',
-                ("atende satisfatoriamente",
-                 "parcialmente",
-                 "inexistente")
-            )
-
-            usa_credito_comercializacao = st.selectbox(
-                'Utiliza crédito para comercialização',
-                ("atende satisfatoriamente",
-                 "parcialmente",
-                 "inexistente")
             )
 
             st.subheader(
@@ -370,32 +331,6 @@ if __name__ == "__main__":
                 "Porcentagem de plata cobertura", help="Caso afirmativo, qual a proporção da área de produção que adota esta prática (%)")
 
             st.subheader(
-                "Gerenciamento de resíduos e efluentes gerados no imóvel rural")
-            st.write(
-                "Esgoto residências - destinação")
-            df_destinacao_residuos = st.data_editor({
-                "Tipos": ["Esgoto residências - destinação",
-                          "Lixo domiciliar e das atividades - destinação"],
-                "Residência rural": ["", ""],
-                "Outras residência": ["", ""],
-            })
-
-            porcentagem_residuos_solidos_organicos = st.text_input(
-                "*Resíduos sólidos orgânicos - compostagem e/ou reaproveitamento no campo", help="Preenchimento obrigatório")
-
-            porcentagem_efluente_liquido = st.text_input(
-                "Efluentes líquidos (quando existentes) - tratamento / destinação adequada", help="Deixar o campo em branco quando não houver geração de efluentes líquidos e/ou gasosos")
-
-            porcentagem_efluente_gasosos = st.text_input(
-                "Efluentes gasosos (quando existentes) - tratamento / destinação adequada", help="Deixar o campo em branco quando não houver geração de efluentes líquidos e/ou gasosos")
-            tem_pontos_criticos_gestao_efluentes = st.radio(
-                "Imóvel rural possui pontos críticos com relação à gestão de resíduos e efluentes",
-                options=["Sim",
-                         "Não"])
-            descricao_pontos_criticos_gestao_efluentes = st.text_input(
-                "Caso afirmativo - Especificar", help="Preenchimento caso a resposta anterior seja 'Sim'")
-
-            st.subheader(
                 "Estado de conservação das estradas que cortam e margeiam o imóvel rural")
             st.write(
                 "Avaliação do estado de conservação e drenagem ")
@@ -422,32 +357,6 @@ if __name__ == "__main__":
             descricao_pontos_criticos_estradas = st.text_input(
                 "*Situação crítica - ESPECIFICAR*", help="Caso a resposta anterior seeja 'Sim'")
 
-            st.subheader(
-                "Vegetação nativa - fitofisionomias e estado de conservação")
-            st.write(
-                "Estágios sucessionais da vegetação nativa")
-            fitofisionomias = st.data_editor({
-                "Fitofisionomias (selecione)": ["Mata de galeria",
-                                                "Vereda",
-                                                "Mata atlântica/mata seca",
-                                                "Vegetação de caatinga"],
-                "Estágio avançado (área ha)": ["", "", "", ""],
-                "Estágio médio (área ha)": ["", "", "", ""],
-                "Estágio inicial (área ha)": ["", "", "", ""],
-            })
-            st.write(
-                "Nº de fragmentos com vegetação nativa (no imóvel rural)")
-            n_fragmento_vegetacao_nativa = st.text_input(
-                "Unidade", help="Nº de fragmentos com vegetação nativa (no imóvel rural)")
-            tem_vegetacao_nativa_junto_imoveis_visinhos = st.radio(
-                "Fragmento(s) tem conexão com a vegetação nativa de imóveis rurais vizinhos",
-                options=["Sim",
-                         "Não"])
-            tem_aceiro_munutencao_anual = st.radio(
-                "Fragmento(s) protegidos do pastoreio e do fogo (aceiros com manutenção anual)",
-                options=["Sim",
-                         "Não"])
-
             # Every form must have a submit button.
             submitted = st.form_submit_button("Salvar")
             if submitted:
@@ -456,7 +365,7 @@ if __name__ == "__main__":
                                                                   'cpf_colaborador',
                                                                   'nome_beneficiario',
                                                                   'cpf_cnpj_beneficiario',
-                                                                  'idade_beneficiario',
+                                                                  'data_nascimento_beneficiario',
                                                                   'geolocalizacao',
                                                                   'municipio',
                                                                   'estado',
@@ -477,30 +386,29 @@ if __name__ == "__main__":
                                                                   'opcao_tem_problema_falta_agua',
                                                                   'especificar_problema_falta_agua',
                                                                   'opcao_regularizacao_ambiental',
-                                                                  'opcao_licencimento_ambiental',
                                                                   'opcao_reserva_legal_regular',
                                                                   'problemas_enfrentados',
                                                                   "df_renda_bruta",
-                                                                  "descricao_atividade_rural",
-                                                                  "produtividade_rural_anual",
-                                                                  "preco_anual_venda_rural",
                                                                   "df_renda_bruta_outras_atividades",
                                                                   "valor_outras_atividades_pensao_ajuda",
                                                                   "valor_outras_atividades_prestacao_servico",
                                                                   "qt_residencia_imovel",
-                                                                  "df_servico_basico",
-                                                                  "df_procucao_alimento",
+                                                                  "servico_basico_agua",
+                                                                  "servico_basico_energia_eletrica",
+                                                                  "servico_basico_escoamento_producao",
+                                                                  "servico_basico_saude",
+                                                                  "servico_basico_transporte_escolar",
+                                                                  "servico_basico_transporte_seguranca",
+                                                                  "servico_basico_internet",
+                                                                  "servico_basico_coleta_lixo",
+                                                                  "servico_basico_tratamento_esgoto",
+                                                                  "servico_basico_residencia_rural",
+                                                                  "servico_basico_outras_residencias",
                                                                   "df_escolaridade",
                                                                   "df_cursos_rurais",
-                                                                  "df_frequencia_rede_ensino",
                                                                   "df_cumprimento_legistacao_trabalhista",
-                                                                  "df_beneficios_ministerio_trabalho",
                                                                   "acesso_assistencia_tecnica",
                                                                   "participacao_assistencia_tecnica",
-                                                                  "regularizacao_ambiental",
-                                                                  "usa_credito_regularizacao_ambiental",
-                                                                  "usa_custeio_regularizacao_ambiental",
-                                                                  "usa_credito_comercializacao",
                                                                   "busca_informacoes_comercializacao",
                                                                   "gera_produtos_certificados",
                                                                   "usa_tecnicas_inovadoras",
@@ -511,29 +419,19 @@ if __name__ == "__main__":
                                                                   "porcentagem_bioinsumos",
                                                                   "tem_planta_cobertura",
                                                                   "porcentagem_planta_cobertura",
-                                                                  "df_destinacao_residuos",
-                                                                  "porcentagem_residuos_solidos_organicos",
-                                                                  "porcentagem_efluente_liquido",
-                                                                  "porcentagem_efluente_gasosos",
-                                                                  "tem_pontos_criticos_gestao_efluentes",
-                                                                  "descricao_pontos_criticos_gestao_efluentes",
                                                                   "porcentagem_presenca_declividade",
                                                                   "porcentagem_presenca_enxuradas",
                                                                   "porcentagem_presenca_caixa_infiltracao",
                                                                   "porcentagem_presenca_buraco_estradas",
                                                                   "porcentagem_presenca_erosao_estradas",
                                                                   "tem_pontos_criticos_nas_estradas",
-                                                                  "descricao_pontos_criticos_estradas",
-                                                                  "fitofisionomias",
-                                                                  "n_fragmento_vegetacao_nativa",
-                                                                  "tem_vegetacao_nativa_junto_imoveis_visinhos",
-                                                                  "tem_aceiro_munutencao_anual"])
+                                                                  "descricao_pontos_criticos_estradas"])
 
                 dados = {'nome_colaborador': nome_colaborador,
                          'cpf_colaborador': cpf_colaborador,
                          'nome_beneficiario': nome_beneficiario,
                          'cpf_cnpj_beneficiario': cpf_cnpj_beneficiario,
-                         'idade_beneficiario': idade_beneficiario,
+                         'data_nascimento_beneficiario': data_nascimento_beneficiario,
                          'geolocalizacao': geolocalizacao,
                          'municipio': municipio,
                          'estado': estado,
@@ -554,30 +452,29 @@ if __name__ == "__main__":
                          'opcao_tem_problema_falta_agua': str(opcao_tem_problema_falta_agua),
                          'especificar_problema_falta_agua': especificar_problema_falta_agua,
                          'opcao_regularizacao_ambiental': str(opcao_regularizacao_ambiental),
-                         'opcao_licencimento_ambiental': str(opcao_licencimento_ambiental),
                          'opcao_reserva_legal_regular': str(opcao_reserva_legal_regular),
                          'problemas_enfrentados': problemas_enfrentados,
                          "df_renda_bruta": str(df_renda_bruta),
-                         "descricao_atividade_rural": descricao_atividade_rural,
-                         "produtividade_rural_anual": produtividade_rural_anual,
-                         "preco_anual_venda_rural": preco_anual_venda_rural,
                          "df_renda_bruta_outras_atividades": str(df_renda_bruta_outras_atividades),
                          "valor_outras_atividades_pensao_ajuda": valor_outras_atividades_pensao_ajuda,
                          "valor_outras_atividades_prestacao_servico": valor_outras_atividades_prestacao_servico,
                          "qt_residencia_imovel": qt_residencia_imovel,
-                         "df_servico_basico": str(df_servico_basico),
-                         "df_procucao_alimento": str(df_procucao_alimento),
+                         "servico_basico_agua": servico_basico_agua,
+                         "servico_basico_energia_eletrica": servico_basico_energia_eletrica,
+                         "servico_basico_escoamento_producao": servico_basico_escoamento_producao,
+                         "servico_basico_saude": servico_basico_saude,
+                         "servico_basico_transporte_escolar": servico_basico_transporte_escolar,
+                         "servico_basico_transporte_seguranca": servico_basico_transporte_seguranca,
+                         "servico_basico_internet": servico_basico_internet,
+                         "servico_basico_coleta_lixo": servico_basico_coleta_lixo,
+                         "servico_basico_tratamento_esgoto": servico_basico_tratamento_esgoto,
+                         "servico_basico_residencia_rural": servico_basico_residencia_rural,
+                         "servico_basico_outras_residencias": servico_basico_outras_residencias,
                          "df_escolaridade": str(df_escolaridade),
                          "df_cursos_rurais": str(df_cursos_rurais),
-                         "df_frequencia_rede_ensino": str(df_frequencia_rede_ensino),
                          "df_cumprimento_legistacao_trabalhista": str(df_cumprimento_legistacao_trabalhista),
-                         "df_beneficios_ministerio_trabalho": str(df_beneficios_ministerio_trabalho),
                          "acesso_assistencia_tecnica": acesso_assistencia_tecnica,
                          "participacao_assistencia_tecnica": participacao_assistencia_tecnica,
-                         "regularizacao_ambiental": regularizacao_ambiental,
-                         "usa_credito_regularizacao_ambiental": usa_credito_regularizacao_ambiental,
-                         "usa_custeio_regularizacao_ambiental": usa_custeio_regularizacao_ambiental,
-                         "usa_credito_comercializacao": usa_credito_comercializacao,
                          "busca_informacoes_comercializacao": busca_informacoes_comercializacao,
                          "gera_produtos_certificados": gera_produtos_certificados,
                          "usa_tecnicas_inovadoras": usa_tecnicas_inovadoras,
@@ -588,23 +485,13 @@ if __name__ == "__main__":
                          "porcentagem_bioinsumos": porcentagem_bioinsumos,
                          "tem_planta_cobertura": tem_planta_cobertura,
                          "porcentagem_planta_cobertura": porcentagem_planta_cobertura,
-                         "df_destinacao_residuos": str(df_destinacao_residuos),
-                         "porcentagem_residuos_solidos_organicos": porcentagem_residuos_solidos_organicos,
-                         "porcentagem_efluente_liquido": porcentagem_efluente_liquido,
-                         "porcentagem_efluente_gasosos": porcentagem_efluente_gasosos,
-                         "tem_pontos_criticos_gestao_efluentes": tem_pontos_criticos_gestao_efluentes,
-                         "descricao_pontos_criticos_gestao_efluentes": descricao_pontos_criticos_gestao_efluentes,
                          "porcentagem_presenca_declividade": porcentagem_presenca_declividade,
                          "porcentagem_presenca_enxuradas": porcentagem_presenca_enxuradas,
                          "porcentagem_presenca_caixa_infiltracao": porcentagem_presenca_caixa_infiltracao,
                          "porcentagem_presenca_buraco_estradas": porcentagem_presenca_buraco_estradas,
                          "porcentagem_presenca_erosao_estradas": porcentagem_presenca_erosao_estradas,
                          "tem_pontos_criticos_nas_estradas": tem_pontos_criticos_nas_estradas,
-                         "descricao_pontos_criticos_estradas": descricao_pontos_criticos_estradas,
-                         "fitofisionomias": fitofisionomias,
-                         "n_fragmento_vegetacao_nativa": n_fragmento_vegetacao_nativa,
-                         "tem_vegetacao_nativa_junto_imoveis_visinhos": tem_vegetacao_nativa_junto_imoveis_visinhos,
-                         "tem_aceiro_munutencao_anual": tem_aceiro_munutencao_anual}
+                         "descricao_pontos_criticos_estradas": descricao_pontos_criticos_estradas}
 
                 df = pd.DataFrame(dados, index=[0])
                 st.session_state.data = pd.concat(
