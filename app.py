@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
             st.subheader("Área de reserva legal (RL):")
             opcao_reserva_legal = st.selectbox(
-                '% Reserva Legal',
+                '/% Reserva Legal',
                 ('Não possuí reserva legal',
                  '20% do imóvel rural',
                  '35% do imóvel rural',
