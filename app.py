@@ -32,8 +32,10 @@ if __name__ == "__main__":
                 "Data de nascimento:")
 
             st.subheader("Local e identificação do imóvel rural:")
-            geolocalizacao = st.text_input(
-                "Geolocalização (coordenadas graus decimais) ")
+            geolocalizacao_latitude = st.text_input(
+                "Latitude - Geolocalização (coordenadas graus, minutos e segundos. Exemplo: 17°14'55,2\" S) ")
+            geolocalizacao_longitude = st.text_input(
+                "Longitude - Geolocalização (coordenadas graus, minutos e segundos. Exemplo: 41°20'54,18\" O) ")
             municipio = st.text_input("Nome do município")
             estado = st.text_input("Estado")
             nome_curso_dagua = st.text_input(
@@ -103,9 +105,11 @@ if __name__ == "__main__":
 
             st.subheader("Área de reserva legal (RL):")
             opcao_reserva_legal = st.selectbox(
-                '% RL',
-                ('Não possuí reserva legal', '20% do imóvel rural',
-                 '35% do imóvel rural', '80% do imóvel rural')
+                '% Reserva Legal',
+                ('Não possuí reserva legal',
+                 '20% do imóvel rural',
+                 '35% do imóvel rural',
+                 '80% do imóvel rural')
             )
 
             st.subheader("Recurso hídrico no imóvel rural:")
@@ -181,7 +185,7 @@ if __name__ == "__main__":
             qt_residencia_imovel = st.text_input(
                 "Total de residências no imóvel rural")
             st.write(
-                "Serviços básicos disponíveis OBS: Escolha uma opção: 1 (atende satisfatoriamente); 0,5 (parcialmente); 0 (inexistente)")
+                "Serviços básicos disponíveis")
 
             servico_basico_agua = st.radio(
                 "Disponibilidade de água (quantidade e qualidade)",
@@ -268,14 +272,13 @@ if __name__ == "__main__":
 
             st.subheader(
                 "Gestão do empreendimento")
-            st.write(
-                "* Não considerar assistência técnica de revendas de insumos.")
 
             acesso_assistencia_tecnica = st.selectbox(
                 'Acesso à assistência técnica (particular ou pública)*',
                 ("atende satisfatoriamente",
                  "parcialmente",
-                 "inexistente")
+                 "inexistente"),
+                help="* Não considerar assistência técnica de revendas de insumos."
             )
             participacao_assistencia_tecnica = st.selectbox(
                 'Participação - formas associativas',
@@ -366,7 +369,8 @@ if __name__ == "__main__":
                                                                   'nome_beneficiario',
                                                                   'cpf_cnpj_beneficiario',
                                                                   'data_nascimento_beneficiario',
-                                                                  'geolocalizacao',
+                                                                  'geolocalizacao_latitude',
+                                                                  'geolocalizacao_longitude',
                                                                   'municipio',
                                                                   'estado',
                                                                   'nome_curso_dagua',
@@ -432,7 +436,8 @@ if __name__ == "__main__":
                          'nome_beneficiario': nome_beneficiario,
                          'cpf_cnpj_beneficiario': cpf_cnpj_beneficiario,
                          'data_nascimento_beneficiario': data_nascimento_beneficiario,
-                         'geolocalizacao': geolocalizacao,
+                         'geolocalizacao_latitude': geolocalizacao_latitude,
+                         'geolocalizacao_longitude': geolocalizacao_longitude,
                          'municipio': municipio,
                          'estado': estado,
                          'nome_curso_dagua': nome_curso_dagua,
@@ -509,7 +514,7 @@ if __name__ == "__main__":
         st.write("## Download")
         if 'data' in st.session_state:
             st.download_button(
-                "📥 Download", st.session_state.data.to_csv(index=False), "data.csv", mime="text/csv")
+                "📥 Download", st.session_state.data.to_csv(index=False), "dados_questionario.csv", mime="text/csv")
 
     except Exception as e:
         st.error(f'Erro: {e}')
